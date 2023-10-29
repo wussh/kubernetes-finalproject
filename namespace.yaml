@@ -1,7 +1,7 @@
 # Namespace
-apiVersion: v1
-kind: Namespace
+apiVersion: v1 # Versi API Kubernetes yang digunakan.
+kind: Namespace # Jenis sumber daya Kubernetes yang didefinisikan, yaitu Namespace.
 metadata:
-  name: wussh
+  name: wussh # Metadata yang menentukan nama Namespace yang didefinisikan.
   labels:
-    app: wussh
+    app: wussh # Menambahkan label "app" dengan nilai "wussh" ke Namespace ini.

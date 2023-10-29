@@ -1,34 +1,35 @@
+# Deployment untuk layanan RabbitMQ dalam namespace "wussh"
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: rabbitmq
-  namespace: wussh
+  name: rabbitmq # Nama Deployment untuk layanan RabbitMQ.
+  namespace: wussh # Namespace di mana Deployment akan dibuat.
 spec:
-  replicas: 1
+  replicas: 1 # Menentukan jumlah replika yang akan dibuat (1 dalam hal ini).
   selector:
     matchLabels:
-      app: rabbitmq
+      app: rabbitmq # Seleksi pod berdasarkan label "app" dengan nilai "rabbitmq".
   template:
     metadata:
       labels:
-        app: rabbitmq
+        app: rabbitmq # Menambahkan label "app" dengan nilai "rabbitmq" ke pod.
     spec:
       containers:
-      - name: rabbitmq
-        image: rabbitmq:latest
+      - name: rabbitmq # Nama kontainer.
+        image: rabbitmq:latest # Gambar Docker yang akan digunakan (versi terbaru).
         ports:
-        - containerPort: 5672
+        - containerPort: 5672 # Port yang akan digunakan oleh kontainer (5672 dalam hal ini).
 
----
+# Service untuk layanan RabbitMQ dalam namespace "wussh"
 apiVersion: v1
 kind: Service
 metadata:
-  name: rabbitmq
-  namespace: wussh
+  name: rabbitmq # Nama Service yang akan digunakan.
+  namespace: wussh # Namespace di mana Service akan dibuat.
 spec:
   selector:
-    app: rabbitmq
+    app: rabbitmq # Seleksi pod berdasarkan label "app" dengan nilai "rabbitmq".
   ports:
-  - protocol: TCP
-    port: 5672
-    targetPort: 5672
+  - protocol: TCP # Protokol yang digunakan adalah TCP.
+    port: 5672 # Port yang akan digunakan oleh Service (5672 dalam hal ini).
+    targetPort: 5672 # Port target dalam pod yang akan menerima lalu lintas (5672 dalam hal ini).

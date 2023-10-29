@@ -1,0 +1,7 @@
+Order Service:
+Link: https://github.com/wussh/a433-microservices/pkgs/container/a433-microservices/141232964?tag=order-service
+Image: ghcr.io/wussh/a433-microservices:order-service
+
+Shipping Service
+Link: https://github.com/wussh/a433-microservices/pkgs/container/a433-microservices/141240238?tag=shipping-service
+Image: ghcr.io/wussh/a433-microservices:shipping-service

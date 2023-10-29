@@ -1,34 +1,35 @@
-apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
+apiVersion: networking.istio.io/v1alpha3 # Versi API Istio yang digunakan.
+kind: Gateway # Jenis sumber daya Istio yang didefinisikan, yaitu Gateway.
 metadata:
-  name: ecommerce-gateway
+  name: ecommerce-gateway # Metadata yang berisi nama untuk Gateway yang didefinisikan.
 spec:
   selector:
-    istio: ingressgateway
+    istio: ingressgateway # Selector yang mengarahkan lalu lintas ke "ingressgateway" dalam Istio.
   servers:
   - port:
-      number: 80
-      name: http
-      protocol: HTTP
+      number: 80 # Menentukan nomor port, dalam hal ini 80, yang akan digunakan oleh Gateway.
+      name: http # Memberikan nama port sebagai "http".
+      protocol: HTTP # Protokol yang digunakan adalah HTTP.
     hosts:
-    - "*"
+    - "*" # Menentukan host yang diizinkan untuk menerima lalu lintas, dalam hal ini, "*" berarti menerima dari semua host.
+
 ---
 
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
+apiVersion: networking.istio.io/v1alpha3 # Versi API Istio yang digunakan.
+kind: VirtualService # Jenis sumber daya Istio yang didefinisikan, yaitu VirtualService.
 metadata:
-  name: ecommerce
+  name: ecommerce # Metadata yang berisi nama untuk VirtualService yang didefinisikan.
 spec:
   hosts:
-  - "*"
+  - "*" # Menentukan host yang akan dipetakan, dalam hal ini, "*" berarti menerima dari semua host.
   gateways:
-  - ecommerce-gateway
+  - ecommerce-gateway # Menentukan Gateway yang akan digunakan untuk mengarahkan lalu lintas.
   http:
   - match:
     - uri:
-        exact: /order
+        exact: /order # Kriteria pencocokan lalu lintas, dalam hal ini, URL harus tepat "/order".
     route:
     - destination:
-        host: order-service
+        host: order-service # Menentukan host tujuan, yaitu "order-service".
         port:
-          number: 3000
+          number: 3000 # Port yang akan digunakan untuk mengarahkan lalu lintas ke layanan "order-service".

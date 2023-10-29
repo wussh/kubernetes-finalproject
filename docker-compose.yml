@@ -1,0 +1,40 @@
+version: '3' # Menentukan versi Docker Compose yang akan digunakan, dalam hal ini versi 3.
+
+services: # Bagian ini mendefinisikan layanan-layanan yang akan dijalankan dalam lingkungan Docker.
+
+  rabbitmq: # Layanan pertama yang didefinisikan, yaitu RabbitMQ.
+    image: "rabbitmq:latest" # Menggunakan gambar Docker RabbitMQ versi terbaru.
+    container_name: rabbitmq # Memberikan nama kontainer sebagai "rabbitmq".
+    ports:
+      - "5672:5672" # Mengaitkan port 5672 dari host dengan port 5672 dalam kontainer RabbitMQ.
+    networks:
+      - app-network # Menyertakan kontainer ini dalam jaringan "app-network".
+
+  order-service: # Layanan kedua yang didefinisikan, yaitu "order-service".
+    image: ghcr.io/wussh/a433-microservices:order-service # Menggunakan gambar Docker dari lokasi yang disebutkan.
+    container_name: order-service # Memberikan nama kontainer sebagai "order-service".
+    ports:
+      - "3000:3000" # Mengaitkan port 3000 dari host dengan port 3000 dalam kontainer "order-service".
+    networks:
+      - app-network # Menyertakan kontainer ini dalam jaringan "app-network".
+    depends_on:
+      - rabbitmq # Menentukan bahwa layanan "order-service" bergantung pada layanan "rabbitmq".
+    environment:
+      AMQP_URL: "amqp://rabbitmq:5672" # Mengatur variabel lingkungan "AMQP_URL" dengan nilai koneksi RabbitMQ.
+
+  shipping-service: # Layanan ketiga yang didefinisikan, yaitu "shipping-service".
+    image: ghcr.io/wussh/a433-microservices:shipping-service # Menggunakan gambar Docker dari lokasi yang disebutkan.
+    container_name: shipping-service # Memberikan nama kontainer sebagai "shipping-service".
+    ports:
+      - "3001:3001" # Mengaitkan port 3001 dari host dengan port 3001 dalam kontainer "shipping-service".
+    networks:
+      - app-network # Menyertakan kontainer ini dalam jaringan "app-network".
+    depends_on:
+      - rabbitmq # Menentukan bahwa layanan "shipping-service" bergantung pada layanan "rabbitmq".
+    environment:
+      AMQP_URL: "amqp://rabbitmq:5672" # Mengatur variabel lingkungan "AMQP_URL" dengan nilai koneksi RabbitMQ.
+
+networks: # Mendefinisikan jaringan yang akan digunakan dalam komposisi Docker.
+  app-network: # Jaringan bernama "app-network".
+    driver: bridge # Menggunakan driver jaringan "bridge".
+

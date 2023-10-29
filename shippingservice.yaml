@@ -1,53 +1,53 @@
+# ServiceAccount untuk layanan "shipping-service" dalam namespace "wussh"
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: shipping-service
-  namespace: wussh
+  name: shipping-service # Nama ServiceAccount untuk layanan "shipping-service".
+  namespace: wussh # Namespace di mana ServiceAccount akan dibuat.
   labels:
-    account: shipping-service
----
+    account: shipping-service # Menambahkan label "account" dengan nilai "shipping-service" ke ServiceAccount.
 
+# Deployment untuk layanan "shipping-service" dalam namespace "wussh"
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: shipping-service
-  namespace: wussh
+  name: shipping-service # Nama Deployment untuk layanan "shipping-service".
+  namespace: wussh # Namespace di mana Deployment akan dibuat.
   labels:
-    app: shipping-service
-    version: v1
+    app: shipping-service # Menambahkan label "app" dengan nilai "shipping-service" ke Deployment.
+    version: v1 # Menambahkan label "version" dengan nilai "v1" ke Deployment.
 spec:
-  replicas: 2
+  replicas: 2 # Menentukan jumlah replika yang akan dibuat (2 dalam hal ini).
   selector:
     matchLabels:
-      app: shipping-service
-      version: v1
+      app: shipping-service # Seleksi pod berdasarkan label "app" dengan nilai "shipping-service".
+      version: v1 # Seleksi pod berdasarkan label "version" dengan nilai "v1".
   template:
     metadata:
       labels:
-        app: shipping-service
-        version: v1
+        app: shipping-service # Menambahkan label "app" dengan nilai "shipping-service" ke pod.
+        version: v1 # Menambahkan label "version" dengan nilai "v1" ke pod.
     spec:
-      serviceAccountName: shipping-service
+      serviceAccountName: shipping-service # Mengatur nama ServiceAccount yang akan digunakan oleh pod.
       containers:
-      - name: shipping-service
-        image: ghcr.io/wussh/a433-microservices:shipping-service
+      - name: shipping-service # Nama kontainer.
+        image: ghcr.io/wussh/a433-microservices:shipping-service # Gambar Docker yang akan digunakan.
         ports:
-        - containerPort: 3001
+        - containerPort: 3001 # Port yang akan digunakan oleh kontainer (3001 dalam hal ini).
         env: 
-          - name: PORT
+          - name: PORT # Variabel lingkungan "PORT" dengan nilai "3001".
             value: "3001"
-          - name: AMQP_URL
-            value: "amqp://rabbitmq:5672"
----
+          - name: AMQP_URL # Variabel lingkungan "AMQP_URL" dengan nilai "amqp://rabbitmq:5672".
 
+# Service untuk layanan "shipping-service" dalam namespace "wussh"
 apiVersion: v1
 kind: Service
 metadata:
-  name: shipping-service
-  namespace: wussh
+  name: shipping-service # Nama Service yang akan digunakan.
+  namespace: wussh # Namespace di mana Service akan dibuat.
 spec:
   selector:
-    app: shipping-service
+    app: shipping-service # Seleksi pod berdasarkan label "app" dengan nilai "shipping-service".
   ports:
-  - port: 3001
-  type: NodePort
+  - port: 3001 # Port yang akan digunakan oleh Service.
+  type: NodePort # Jenis Service yang digunakan adalah NodePort.

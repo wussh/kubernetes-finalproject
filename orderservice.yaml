@@ -1,57 +1,57 @@
+# ServiceAccount untuk layanan "order-service" dalam namespace "wussh"
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: order-service
-  namespace: wussh
+  name: order-service # Nama ServiceAccount untuk layanan "order-service".
+  namespace: wussh # Namespace di mana ServiceAccount akan dibuat.
   labels:
-    account: order-service
+    account: order-service # Menambahkan label "account" dengan nilai "order-service" ke ServiceAccount.
 
----
+# Deployment untuk layanan "order-service" dalam namespace "wussh"
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: order-service
-  namespace: wussh
+  name: order-service # Nama Deployment untuk layanan "order-service".
+  namespace: wussh # Namespace di mana Deployment akan dibuat.
   labels:
-    app: order-service
-    version: v1
+    app: order-service # Menambahkan label "app" dengan nilai "order-service" ke Deployment.
+    version: v1 # Menambahkan label "version" dengan nilai "v1" ke Deployment.
 spec:
-  replicas: 2
+  replicas: 2 # Menentukan jumlah replika yang akan dibuat (2 dalam hal ini).
   selector:
     matchLabels:
-      app: order-service
-      version: v1
+      app: order-service # Seleksi pod berdasarkan label "app" dengan nilai "order-service".
+      version: v1 # Seleksi pod berdasarkan label "version" dengan nilai "v1".
   template:
     metadata:
       labels:
-        app: order-service
-        version: v1
+        app: order-service # Menambahkan label "app" dengan nilai "order-service" ke pod.
+        version: v1 # Menambahkan label "version" dengan nilai "v1" ke pod.
     spec:
-      serviceAccountName: order-service
+      serviceAccountName: order-service # Mengatur nama ServiceAccount yang akan digunakan oleh pod.
       containers:
-      - name: order-service
-        image: ghcr.io/wussh/a433-microservices:order-service
+      - name: order-service # Nama kontainer.
+        image: ghcr.io/wussh/a433-microservices:order-service # Gambar Docker yang akan digunakan.
         ports:
-        - containerPort: 3000
+        - containerPort: 3000 # Port yang akan digunakan oleh kontainer (3000 dalam hal ini).
         env: 
-          - name: PORT
+          - name: PORT # Variabel lingkungan "PORT" dengan nilai "3000".
             value: "3000"
-          - name: AMQP_URL
-            value: "amqp://rabbitmq:5672"
-            
----
+          - name: AMQP_URL # Variabel lingkungan "AMQP_URL" dengan nilai "amqp://rabbitmq:5672".
+
+# Service untuk layanan "order-service" dalam namespace "wussh"
 apiVersion: v1
 kind: Service
 metadata:
-  name: order-service
-  namespace: wussh
+  name: order-service # Nama Service yang akan digunakan.
+  namespace: wussh # Namespace di mana Service akan dibuat.
   labels:
-    app: order-service
-    service: order-service
+    app: order-service # Menambahkan label "app" dengan nilai "order-service" ke Service.
+    service: order-service # Menambahkan label "service" dengan nilai "order-service" ke Service.
 spec:
   selector:
-    app: order-service
+    app: order-service # Seleksi pod berdasarkan label "app" dengan nilai "order-service".
   ports:
-  - port: 3000
-    name: http
-  type: NodePort
+  - port: 3000 # Port yang akan digunakan oleh Service.
+    name: http # Memberikan nama port sebagai "http".
+  type: NodePort # Jenis Service yang digunakan adalah NodePort.
