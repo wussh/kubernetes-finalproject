@@ -1,6 +1,13 @@
-# Kubernetes Final Project
+# Microservices-based E-commerce Application Deployment with Kubernetes
 
-This project contains Kubernetes configurations and Docker Compose setup for deploying a microservices-based e-commerce application.
+This repository contains configurations and setup for deploying a microservices-based e-commerce application using Kubernetes. The project includes Kubernetes YAML files for resource definitions such as deployments, services, namespaces, and Istio configurations, along with a Docker Compose setup for local development.
+
+## Features
+
+- **Modular Microservices Architecture**: The application follows a microservices architecture, with separate services for order management, shipping, and communication via RabbitMQ.
+- **Scalability and Fault Tolerance**: Utilizes Kubernetes for orchestrating and managing containerized application components, ensuring scalability and fault tolerance.
+- **Traffic Management with Istio**: Integrates Istio for advanced traffic management, including gateway and virtual service configurations for routing incoming requests.
+- **Local Development Environment**: Provides a Docker Compose setup for local development and testing, allowing developers to work in an environment similar to production.
 
 ## Project Structure
 
@@ -45,6 +52,22 @@ Defines a Kubernetes Namespace named `wussh` for isolating project resources.
 ### Istio Gateway and VirtualService
 
 Defines an Istio Gateway for ingress traffic and a VirtualService to route traffic to the order service.
+
+## Usage
+
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/your-username/kubernetes-finalproject.git
+    ```
+2. Apply Kubernetes configurations:
+    ```bash
+    cd kubernetes-finalproject
+    ./apply-all.sh
+    ```
+3. Optionally, use Docker Compose for local development:
+    ```bash
+    docker-compose up
+    ```
 
 ## Links
 
